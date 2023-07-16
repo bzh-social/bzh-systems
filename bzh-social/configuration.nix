@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   imports = [
@@ -49,6 +49,19 @@
       enable = true;
       olderThanDays = 7;
     };
+  };
+
+  systemd.services.mastodon-prune = {
+    description = "Prune old profiles";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "mastodon-web.service" ];
+    environment = config.systemd.services.mastodon-media-auto-remove.environment;
+    serviceConfig = builtins.removeAttrs config.systemd.services.mastodon-media-auto-remove.serviceConfig [ "ExecStart" ];
+    script = ''
+      ${pkgs.mastodon}/bin/tootctl media remove --prune-profiles
+      ${pkgs.mastodon}/bin/tootctl statuses remove
+    '';
+    startAt = "Sun 06:00:00";
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
