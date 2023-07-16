@@ -92,6 +92,7 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILOlGe1RFgBIcHdNBRA6SyCjd4TONwi29anhD2c/2K1d @bzh@bzh.social"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJTdCJeK8yhtAxa+wSWwURz4hE4FGQGOPgSwOU0OtEee @hendrik@pourparlers.social"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQnmVODr2pCW+d13cOikhZsElmcBY8azffqGQGVwlK1 @theolodis@vegane.schule"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICdSYdFmTqbKl+M1TSGCAIlGBLXwIV3LHs0XTt8noXPb Github Actions"
   ];
 
   system.stateVersion = "23.05";
