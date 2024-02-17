@@ -34,6 +34,7 @@
     enable = true;
     localDomain = "bzh.social";
     configureNginx = true;
+    streamingProcesses = 3;
     smtp = {
       host = "smtp.gmail.com";
       user = "bzh.social@gmail.com";
