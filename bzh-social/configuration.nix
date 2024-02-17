@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 
 {
   imports = [
@@ -20,10 +20,20 @@
     htop
   ];
 
+  # add unfree software on per-package level
+  # https://nixos.wiki/wiki/Unfree_Software
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "elasticsearch"
+    ];
+
   virtualisation.docker.enable = true;
 
   services.openssh.enable = true;
   services.fail2ban.enable = true;
+
+  # required for mastodon full text search
+  services.elasticsearch.enable = true;
 
   security.acme = {
     acceptTerms = true;
@@ -42,6 +52,10 @@
       authenticate = true;
       port = 587;
       fromAddress = "bzh.social <bzh.social@gmail.com>";
+    };
+    elasticsearch = {
+      host = "localhost";
+      port = 9200;
     };
     extraConfig = {
       DEFAULT_LOCALE = "fr";
