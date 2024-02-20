@@ -60,6 +60,9 @@
     extraConfig = {
       DEFAULT_LOCALE = "fr";
     };
+    extraEnvFiles = [
+      "/var/lib/mastodon/hcaptcha.env"
+    ];
     mediaAutoRemove = {
       enable = true;
       olderThanDays = 7;
