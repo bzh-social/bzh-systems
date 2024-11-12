@@ -126,5 +126,11 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICdSYdFmTqbKl+M1TSGCAIlGBLXwIV3LHs0XTt8noXPb Github Actions"
   ];
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   system.stateVersion = "23.05";
 }
