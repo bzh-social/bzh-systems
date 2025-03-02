@@ -89,27 +89,6 @@
     recommendedProxySettings = true;
     # Allow video uploads up to 100MB
     clientMaxBodySize = "100m";
-
-    virtualHosts."relay.pourparlers.social" = {
-      forceSSL = true;
-      enableACME = true;
-
-      locations."/" = {
-        root = "/var/lib/activity-relay";
-      };
-
-      locations."/inbox" = {
-        proxyPass = "http://127.0.0.1:8080";
-      };
-      
-      locations."/actor" = {
-        proxyPass = "http://127.0.0.1:8080";
-      };
-
-      locations."~ ^/(.*)/" = {
-        proxyPass = "http://127.0.0.1:8080";
-      };
-    };
   };
 
   services.postgresqlBackup = {
