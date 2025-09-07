@@ -1,5 +1,7 @@
 { pkgs, config, lib, ... }:
-
+let
+  pg = config.services.postgresql.package;
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -14,10 +16,10 @@
   };
 
   environment.systemPackages = with pkgs; [
-    docker-compose
     git
     vim
     htop
+    pg.pkgs.pg_repack
   ];
 
   # add unfree software on per-package level
@@ -26,8 +28,6 @@
     builtins.elem (lib.getName pkg) [
       "elasticsearch"
     ];
-
-  virtualisation.docker.enable = true;
 
   services.openssh.enable = true;
   services.fail2ban.enable = true;
@@ -91,6 +91,12 @@
     clientMaxBodySize = "100m";
   };
 
+  services.postgresql = {
+    extensions = ps: with ps; [
+      pg_repack
+    ];
+  };
+
   services.postgresqlBackup = {
     enable = true;
     databases = [ 
@@ -105,10 +111,16 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICdSYdFmTqbKl+M1TSGCAIlGBLXwIV3LHs0XTt8noXPb Github Actions"
   ];
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
+  nix = {
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = ["nix-command" "flakes"];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
   };
 
   system.stateVersion = "23.05";
