@@ -22,4 +22,4 @@ jobs:
           SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
       - name: nixos-rebuild
         run: |
-          nix-shell -p nixos-rebuild --run 'nixos-rebuild --use-remote-sudo --target-host root@bzh.social switch --flake .#bzh-social'
+          NIX_SSHOPTS="-o RequestTTY=force" nix-shell -p nixos-rebuild --run 'nixos-rebuild --use-remote-sudo --target-host root@bzh.social switch --flake .#bzh-social'
